@@ -1,12 +1,15 @@
-// Astro Framework - Wordpress verison v0.1.0
+// Astro Framework - Wordpress verison 0.1.1
 // Copyright 2015 Ting Yang and Hector Jarquin
 // Released under the MIT license
-// Last updated: October 1st, 2015
-
-// Support:
-//  Wordpress.org, the official rest api endpoint
-//  Jetpack plugin enable that support official endpoint
+// Last updated: October 13th, 2015
 //
+// Support:
+//  Wordpress.com, the official RESTful api endpoint
+//  Wordpress.org (self hosted) with Jetpack json api plugin 
+//  
+// Hightlight:
+// 1. rewrit the list render, ul and li will remove
+(function () {
 'use strict';
 
 function RootElement(domBlock) {
@@ -16,30 +19,40 @@ function RootElement(domBlock) {
     function validateSource (url) {
         return (url.search(/wordpress/) != -1);
     } 
-    return {
-        getSourceURL: function () {
-            // root should expect
-            if (root.dataset.wpSource.slice(-1) !== "/") {
-                return root.dataset.wpSource + "/";
-            } else {
-                return root.dataset.wpSource;
-            }
-        },
-        findWPElements: function () {
-            return root.querySelectorAll("[data-wp-element]");
-        },
-        findWPCollections: function () {
-            return root.querySelectorAll("[data-wp-collection]");
-        },
-
-        countElements: function () {
-            return root.querySelectorAll("[data-wp-element]").length;
-        },
-
-        countCollections: function () {
-            return root.querySelectorAll("[data-wp-collection]").length;
+    
+    function getSourceURL () {
+        // root should expect
+        if (root.dataset.wpSource.slice(-1) !== "/") {
+            return root.dataset.wpSource + "/";
+        } else {
+            return root.dataset.wpSource;
         }
+    }
 
+    function findWPElements () {
+        return root.querySelectorAll("[data-wp-element]");
+    }
+
+
+    function findWPCollections () {
+        return root.querySelectorAll("[data-wp-collection]");
+    }
+
+    function countElements () {
+        return root.querySelectorAll("[data-wp-element]").length;
+    }
+
+    function countCollections () {
+        return root.querySelectorAll("[data-wp-collection]").length;
+    }
+    
+    // public properties
+    return {
+        getSourceURL: getSourceURL,
+        findWPElements: findWPElements, 
+        findWPCollections: findWPCollections, 
+        countElements: countElements, 
+        countCollections: countCollections 
     };
 }
 
@@ -71,32 +84,39 @@ function WPCollections (domEl) {
         return criteria;
     }
 
-
-    return {
-        requestUrl: function (sourceUrl) {
-            // build the request url
-            var component = getSearchCriteria(element);          
-            var url;
-            if (component.hasOwnProperty("type")) {
-                url = "";
-                url += sourceUrl + component.type + "/";
-                if (!component.hasOwnProperty("option")) {
-                    return url;
-                } else {
-                    // if contains wp-option
-                    url += "?" + component.option;
-                }
+    function requestUrl (sourceUrl) {
+        // build the request url
+        var component = getSearchCriteria(element);          
+        var url;
+        if (component.hasOwnProperty("type")) {
+            url = "";
+            url += sourceUrl + component.type + "/";
+            if (!component.hasOwnProperty("option")) {
+                return url;
             } else {
-                // this may not happen if no type
+                // if contains wp-option
+                url += "?" + component.option;
             }
-            return url;    
-        },
-        self: function () {
-            return element;
-        },
-        template: function () {
-            return element.querySelector("[data-wp-layout]");
+        } else {
+            // this may not happen if no type
         }
+        return url;    
+    }
+
+    function self () {
+        return element;
+    }
+
+    function template () {
+        return element.querySelector("[data-wp-layout]");
+    }
+
+
+    // public properties
+    return {
+        requestUrl: requestUrl,
+        self: self, 
+        template: template 
     }
 }
 
@@ -138,32 +158,39 @@ function WPElement(domEl) {
         }
 
     }
-    return {
-        requestUrl: function (sourceUrl) {
-            var component = getSearchCriteria(element);
-            if (component){
-                var url = '';
-                url += processUrl(sourceUrl);
-                if (component.itemId) {
-                    url += component.type + "/" + component.itemId + "/";
-                    if (component.options) {
-                        url+= "?" + component.options;
-                    }
-                } else {
-                    url += component.type + "/";
-                    if (component.options) {
-                        url+= "?" + component.options;
-                    }
+
+    function requestUrl (sourceUrl) {
+         var component = getSearchCriteria(element);
+        if (component){
+            var url = '';
+            url += processUrl(sourceUrl);
+            if (component.itemId) {
+                url += component.type + "/" + component.itemId + "/";
+                if (component.options) {
+                    url+= "?" + component.options;
                 }
-                return url;
             } else {
-                return null;
+                url += component.type + "/";
+                if (component.options) {
+                    url+= "?" + component.options;
+                }
             }
-        },
-        self: function () {
-            return element;
+            return url;
+        } else {
+            return null;
         }
-    };
+    }
+
+    function self () {
+        return element;
+    }
+
+
+    // public properties
+    return {
+        requestUrl: requestUrl,
+        self: self 
+    }
 }
 
 var util = {
@@ -178,6 +205,7 @@ var util = {
 
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                // JSON.parse will crash when has unexpected response 'json'
                 callback(null, JSON.parse(xmlhttp.responseText));
             }
         };
@@ -185,12 +213,13 @@ var util = {
         xmlhttp.send();
     },
     insertContent: function (json, template) {
+        // json = {post}
+        // insert each element with class = "post" + json["ID"]
         for (var i = 0; i < template.length; i++) {
             if (template[i].tagName === "IMG") {
                 template[i].setAttribute("src",
                     json[template[i].dataset.wpTemplate]);
-            }
-            if (template[i].tagName === "A") {
+            } else if (template[i].tagName === "A") {
                 template[i].setAttribute("href",
                     json[template[i].dataset.wpTemplate]);
             } else {
@@ -199,9 +228,9 @@ var util = {
         }
     },
     insertCollections: function (json, layout) {
-        // how to define the collection
         //
-        var list = layout.querySelector("li");
+        // json = [{post}, {posts} ..] 
+        var list = layout.querySelector("*");
         json.posts.forEach(function (post, index) {
             if (index == 0) {
                 // this not need to clone
@@ -227,12 +256,13 @@ var util = {
 
 };
 
-(function () {
+function ASTROWP () {
     var parent, root, wpElementTag,wpCollectionTag, wpElements, baseUrl,
         wpCollection;
     // find the source, key to fetch content from more 1 wordpress site
     parent = document.querySelectorAll("[data-wp-source]");
     // querySelectorAll return NodeList, not array 
+    // foreach doesn't work in this case
     for (var j = 0; j < parent.length; j++) { 
         root = RootElement(parent[j]); // create ROOT object
         wpElementTag = root.findWPElements();
@@ -250,7 +280,17 @@ var util = {
         wpElements.forEach(function(el, index) {
             var template = el.self().querySelectorAll("[data-wp-template]");
             util.ajax(el.requestUrl(baseUrl), function(err, data) {
-                util.insertContent(data, template);
+                // if expecting data = {post}
+                // this will break if the data in unexepeted format
+                // Only reder first post if exist of not
+                if (!data.hasOwnProperty('posts') ){
+                    util.insertContent(data, template);
+                } else {
+                    // only display the 1st post when doing search
+                    // use data-wp-options="category=demo"
+                    // it can be display the most recent post under demo
+                    util.insertContent(data.posts[0], template);
+                }
             });
         });
 
@@ -260,4 +300,7 @@ var util = {
             });
         });
     }
-}());
+}
+    // run astro
+    ASTROWP();    
+}).call(this);
