@@ -1,20 +1,166 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <title data-wp-template="title"></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-  </head>
-  <body data-wp-source="https://public-api.wordpress.com/rest/v1.1/sites/getcontentfrom.wordpress.com/">
-    <section class="page-header" data-wp-element="posts/slug:$astro" style="height: 800px;">
-      <h1 class="project-name" data-wp-template="title"></h1>
-      <h2 class="project-tagline" data-wp-template="content"></h2>
-    </section>
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
 
-    <script src="astro-wp-element.js"></script>
+    <title>Astro</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+  </head>
+
+  <body>
+  
+<nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand logo-astro" href="#">Astro</a>
+        </div>
+		<div data-wp-source="https://public-api.wordpress.com/rest/v1.1/sites/getcontentfrom.wordpress.com/">
+        <div id="navbar" class="collapse navbar-collapse" data-wp-element="posts/141">
+			<div data-wp-layout="list">
+				<div>
+					<div data-wp-template="content"></div>
+				</div>
+			</div>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron cover text-center" data-wp-source="https://public-api.wordpress.com/rest/v1.1/sites/getcontentfrom.wordpress.com/">
+      <div class="container" data-wp-element="posts/51">
+        <div data-wp-template="content"></div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row collections" id="collections">
+		<div class="col-md-12">
+			<h2 class="page-header text-center">Collections</h2>
+		</div>
+        <div class="col-md-3" data-wp-source="https://public-api.wordpress.com/rest/v1.1/sites/98941271/">
+			<div data-wp-collection="posts" data-wp-options="category=twitter-favourites&number=2">
+          <h3 class="page-header">IFTTT Tweets</h3>
+				<div data-wp-layout="list">
+					<div class="clearfix" style="border-bottom:1px solid #eee;padding: 10px 0;">
+						<div data-wp-template="content"></div>
+					</div>
+				</div>
+			</div>
+        </div>
+        <div class="col-md-3" data-wp-source="https://public-api.wordpress.com/rest/v1.1/sites/getcontentfrom.wordpress.com/">
+			<div data-wp-collection="posts" data-wp-options="category=instagram-likes&number=5">
+          <h3 class="page-header">IFTTT Instagram</h3>
+				<div data-wp-layout="list">
+					<div class="clearfix" style="border-bottom:1px solid #eee;padding: 10px 0;">
+						<a data-wp-template="URL">
+						<img class="img-thumbnail pull-left" style="width:75px; margin-right: 2%;" data-wp-template="featured_image"></img> 
+						<h4 data-wp-template="title"></h4>
+						</a>
+					</div>
+				</div>
+			</div>
+        </div>
+        <div class="col-md-3" data-wp-source="https://public-api.wordpress.com/rest/v1.1/sites/jetpack.me/">
+          <h3 class="page-header">Jetpack Latest</h3>
+			<div data-wp-collection="posts"data-wp-options="number=5">
+				<div data-wp-layout="list">
+					<div class="clearfix" style="border-bottom:1px solid #eee;padding: 10px 0;">
+						<a data-wp-template="URL">
+						<h4 data-wp-template="title"></h4>
+						</a>
+					</div>
+				</div>
+			</div>
+        </div>
+        <div class="col-md-3" data-wp-source="https://public-api.wordpress.com/rest/v1.1/sites/jetpack.me/">
+          <h3 class="page-header">Jetpack Features</h3>
+			<div data-wp-collection="posts"data-wp-options="category=features&number=5">
+				<div data-wp-layout="list">
+					<div class="clearfix" style="border-bottom:1px solid #eee;padding: 10px 0;">
+						<h4 data-wp-template="title" data-toggle="collapse" data-target="h4 + div"></h4>
+						<div class="collapse" data-wp-template="excerpt">
+						<a data-wp-template="URL" class="btn btn-default" href="#" role="button">Read more »</a></div>
+					</div>
+				</div>
+			</div>
+        </div>
+      </div><!--.information-->
+	</div><!--.container-->
+    <div class="container">
+      <div class="row posts" id="posts">
+		<div class="col-md-12">
+			<h2 class="page-header text-center">Posts</h2>
+		</div>
+        <div class="col-md-4" data-wp-source="https://public-api.wordpress.com/rest/v1.1/sites/98941271/">
+			<h3 class="page-header">Latest Post</h3>
+			<div data-wp-collection="posts" data-wp-options="category=youtube-likes&number=1">
+				<div data-wp-layout="list">
+					<div class="clearfix" style="border-bottom:1px solid #eee;padding: 10px 0;">
+						<h4 data-wp-template="title"></h4>
+						<div data-wp-template="content"></div>
+					</div>
+				</div>
+			</div>
+        </div>
+        <div class="col-md-4">
+			<h3 class="page-header">Single Post</h3>
+			<div data-wp-source="https://public-api.wordpress.com/rest/v1.1/sites/wordpress.tv/">
+				<div data-wp-element="posts/slug:$jen-hooks-jetpack-essentials-for-the-beginner-blogger" >
+					<h4 data-wp-template="title"></h4>
+					<div data-wp-template="content" style="overflow:hidden;"></div>
+				</div>
+			</div>
+        </div>
+        <div class="col-md-4">
+          <h3 class="page-header">Single Page</h3>
+			<div data-wp-source="https://public-api.wordpress.com/rest/v1.1/sites/ma.tt/">
+				<div data-wp-element="posts/slug:$complementing-slack" >
+					<h4 data-wp-template="title"></h4>
+					<div data-wp-template="content" style="overflow:hidden;"></div>
+				</div>
+			</div>
+        </div>
+      </div><!--.information-->
+	</div><!--.container-->
+
+    <!-- Footer -->
+    <div id="get-astro" class="footer cover text-center" data-wp-source="https://public-api.wordpress.com/rest/v1.1/sites/getcontentfrom.wordpress.com/">
+      <div class="container" data-wp-element="posts/156">
+        <div data-wp-template="content"></div>
+      </div>
+    </div>
+
+    <script src="../../src/astro-wp-element.js"></script>
   </body>
 </html>
